@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Aplikasi Numerologi Modern</title>
+  <!-- Meta SEO -->
+  <meta name="description" content="Aplikasi Numerologi Modern menganalisa kepribadian berdasarkan nama dan tanggal lahir dengan perhitungan seperti Life Path, Expression, Personal Year, Karmic Lessons, dan Destiny Challenge.">
+  <meta name="keywords" content="Numerologi, Analisis Kepribadian, Personal Year, Karmic Lessons, Destiny Challenge, Numerology, Analisis Nama, Tanggal Lahir">
+  <link rel="canonical" href="https://contoh-aplikasi-numerologi.com/">
   <!-- Bootstrap untuk tampilan responsif -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
@@ -28,6 +32,10 @@
       border: none;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.02);
     }
     .btn-primary {
       background-color: var(--primary-color);
@@ -49,16 +57,21 @@
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
+    .share-btn {
+      background-color: var(--secondary-color);
+      border: none;
+    }
+    .share-btn:hover {
+      background-color: #3ac7aa;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 class="text-center mb-3">Analisis Numerologi</h1>
-    <div class="description text-center">
-      <p>
-        Aplikasi ini menganalisa kepribadian Anda berdasarkan nama dan tanggal lahir dengan menggunakan ilmu numerologi. Numerologi mempelajari hubungan antara angka dan karakter seseorang sehingga dapat memberikan wawasan mengenai potensi, kepribadian, serta perjalanan hidup Anda.
-      </p>
-    </div>
+    <header class="text-center mb-4">
+      <h1>Analisis Numerologi</h1>
+      <p class="lead">Aplikasi ini menganalisa kepribadian Anda berdasarkan nama dan tanggal lahir dengan prinsip numerologi. Pelajari potensi, tantangan, dan peluang hidup melalui perhitungan seperti Life Path, Expression, Personal Year, Karmic Lessons, dan Destiny Challenge.</p>
+    </header>
     <div class="card">
       <div class="card-body">
         <form id="numerologyForm">
@@ -100,7 +113,7 @@
       'I': 9, 'R': 9
     };
 
-    // Mereduksi angka hingga satu digit (kecuali Master Number)
+    // Fungsi mereduksi angka hingga satu digit (kecuali Master Number 11, 22, 33)
     function reduceToSingleDigit(num) {
       while (num > 9 && num !== 11 && num !== 22 && num !== 33) {
         num = num.toString().split('').reduce((acc, d) => acc + parseInt(d), 0);
@@ -108,7 +121,7 @@
       return num;
     }
 
-    // Life Path Number (tanggal lahir)
+    // Life Path Number (dari tanggal lahir)
     function getLifePathNumber(birthdate) {
       const parts = birthdate.split('-');
       let sum = 0;
@@ -120,7 +133,7 @@
       return reduceToSingleDigit(sum);
     }
 
-    // Expression Number (nama lengkap)
+    // Expression Number (dari nama lengkap)
     function getExpressionNumber(name) {
       let sum = 0;
       for (let char of name.toUpperCase()) {
@@ -158,6 +171,38 @@
     // Maturity Number = Life Path + Expression Number
     function getMaturityNumber(lifePath, expression) {
       return reduceToSingleDigit(lifePath + expression);
+    }
+
+    // Personal Year Number = (Bulan + Hari lahir) + (jumlah digit tahun berjalan), direduksi
+    function getPersonalYearNumber(birthdate) {
+      const parts = birthdate.split('-');
+      const month = parseInt(parts[1]);
+      const day = parseInt(parts[2]);
+      const currentYear = new Date().getFullYear().toString().split('').reduce((acc, d) => acc + parseInt(d), 0);
+      return reduceToSingleDigit(month + day + currentYear);
+    }
+
+    // Karmic Lessons: Menampilkan angka 1-9 yang tidak muncul dalam perhitungan Expression Number
+    function getKarmicLessons(name) {
+      let numbersFound = new Set();
+      for (let char of name.toUpperCase()) {
+        if (letterMapping[char]) {
+          numbersFound.add(letterMapping[char]);
+        }
+      }
+      let missing = [];
+      for (let i = 1; i <= 9; i++) {
+        if (!numbersFound.has(i)) missing.push(i);
+      }
+      return missing;
+    }
+
+    // Destiny Challenge: Menghitung selisih antara bulan dan hari lahir (direduksi)
+    function getDestinyChallenge(birthdate) {
+      const parts = birthdate.split('-');
+      const month = parseInt(parts[1]);
+      const day = parseInt(parts[2]);
+      return reduceToSingleDigit(Math.abs(month - day));
     }
 
     // Deskripsi untuk masing-masing perhitungan
@@ -232,9 +277,33 @@
           11: "Intuisi tinggi dan pemahaman spiritual. (Master Number)",
           22: "Kemampuan mewujudkan visi besar. (Master Number)",
           33: "Menginspirasi dan menyembuhkan. (Master Number)"
+        },
+        "personalYear": {
+          1: "Tahun ini penuh dengan inisiatif dan peluang baru untuk kepemimpinan pribadi.",
+          2: "Fokus pada kerja sama dan peningkatan hubungan interpersonal.",
+          3: "Bersiap untuk mengekspresikan kreativitas dan optimisme.",
+          4: "Tahun yang menuntut kestabilan dan kerja keras untuk membangun fondasi yang kokoh.",
+          5: "Siap menghadapi perubahan dan petualangan baru.",
+          6: "Tahun ini menekankan pentingnya keseimbangan dan tanggung jawab dalam hubungan.",
+          7: "Waktu untuk introspeksi mendalam dan pengembangan spiritual.",
+          8: "Fokus pada ambisi, pencapaian, dan pertumbuhan finansial.",
+          9: "Tahun untuk mengakhiri siklus lama dan membuka jalan bagi transformasi.",
+          11: "Tahun istimewa dengan potensi spiritual tinggi. (Master Number)",
+          22: "Tahun yang memungkinkan pencapaian besar melalui kerja nyata. (Master Number)",
+          33: "Tahun penuh inspirasi dan pelayanan. (Master Number)"
+        },
+        "destinyChallenge": {
+          1: "Tantangan dalam menemukan keseimbangan antara kebutuhan pribadi dan harapan eksternal.",
+          2: "Belajar bekerja dengan kompromi untuk mengatasi perbedaan.",
+          3: "Mengelola energi agar tidak terlalu meluap tanpa tujuan yang jelas.",
+          4: "Menghadapi tantangan dalam menciptakan struktur dan kestabilan.",
+          5: "Belajar menavigasi perubahan dan ketidakpastian hidup.",
+          6: "Mengatasi konflik antara tanggung jawab dan keinginan pribadi.",
+          7: "Mendalami diri untuk mengatasi keraguan dan pencarian makna.",
+          8: "Menghadapi tantangan dalam mengelola ambisi dan ekspektasi.",
+          9: "Belajar mengintegrasikan idealisme dengan realitas praktis."
         }
       };
-
       return descriptions[type][number] || "Deskripsi tidak tersedia untuk angka ini.";
     }
 
@@ -244,6 +313,24 @@
     }
     function hideLoading() {
       document.getElementById('loading').style.display = 'none';
+    }
+
+    // Fungsi untuk berbagi hasil analisis menggunakan Web Share API
+    function shareResult() {
+      const shareText = document.getElementById('result').innerText;
+      if (navigator.share) {
+        navigator.share({
+          title: 'Hasil Analisis Numerologi',
+          text: shareText,
+          url: window.location.href
+        }).then(() => {
+          console.log('Berhasil dibagikan');
+        }).catch((error) => {
+          console.error('Error sharing:', error);
+        });
+      } else {
+        alert('Fitur berbagi tidak didukung di browser Anda.');
+      }
     }
 
     // Proses form dan perhitungan
@@ -257,22 +344,27 @@
       }
       
       showLoading();
-      // Simulasi proses loading selama 1 detik
+      // Simulasi loading selama 1 detik
       setTimeout(() => {
         const lifePath = getLifePathNumber(birthdate);
         const expression = getExpressionNumber(name);
         const soulUrge = getSoulUrgeNumber(name);
         const personality = getPersonalityNumber(name);
         const maturity = getMaturityNumber(lifePath, expression);
+        const personalYear = getPersonalYearNumber(birthdate);
+        const karmicLessons = getKarmicLessons(name);
+        const destinyChallenge = getDestinyChallenge(birthdate);
 
         const lifePathDesc = getNumerologyDescription(lifePath, "lifePath");
         const expressionDesc = getNumerologyDescription(expression, "expression");
         const soulUrgeDesc = getNumerologyDescription(soulUrge, "soulUrge");
         const personalityDesc = getNumerologyDescription(personality, "personality");
         const maturityDesc = getNumerologyDescription(maturity, "maturity");
+        const personalYearDesc = getNumerologyDescription(personalYear, "personalYear");
+        const destinyChallengeDesc = getNumerologyDescription(destinyChallenge, "destinyChallenge");
 
         document.getElementById('result').innerHTML = `
-          <div class="card">
+          <div class="card mb-3">
             <div class="card-header text-center">
               <h2>Hasil Analisis Numerologi</h2>
             </div>
@@ -294,6 +386,17 @@
               <hr>
               <h4>Maturity Number: ${maturity}</h4>
               <p>${maturityDesc}</p>
+              <hr>
+              <h4>Personal Year Number: ${personalYear}</h4>
+              <p>${personalYearDesc}</p>
+              <hr>
+              <h4>Karmic Lessons:</h4>
+              <p>${karmicLessons.length ? "Angka yang belum muncul: " + karmicLessons.join(', ') : "Tidak ada pelajaran karmik"}</p>
+              <hr>
+              <h4>Destiny Challenge: ${destinyChallenge}</h4>
+              <p>${destinyChallengeDesc}</p>
+              <hr>
+              <button class="btn btn-block share-btn text-white" onclick="shareResult()">Bagikan Hasil</button>
             </div>
           </div>
         `;
@@ -302,6 +405,7 @@
     });
   </script>
 
+  <!-- Bootstrap JS & dependencies -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
