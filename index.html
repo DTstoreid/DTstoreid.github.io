@@ -182,7 +182,7 @@
       return reduceToSingleDigit(month + day + currentYear);
     }
 
-    // Karmic Lessons: Menampilkan angka 1-9 yang tidak muncul dalam perhitungan Expression Number
+    // Karmic Lessons: Menampilkan angka 1-9 yang tidak muncul dalam Expression Number
     function getKarmicLessons(name) {
       let numbersFound = new Set();
       for (let char of name.toUpperCase()) {
@@ -301,7 +301,10 @@
           6: "Mengatasi konflik antara tanggung jawab dan keinginan pribadi.",
           7: "Mendalami diri untuk mengatasi keraguan dan pencarian makna.",
           8: "Menghadapi tantangan dalam mengelola ambisi dan ekspektasi.",
-          9: "Belajar mengintegrasikan idealisme dengan realitas praktis."
+          9: "Belajar mengintegrasikan idealisme dengan realitas praktis.",
+          11: "Tantangan besar yang memerlukan intuisi dan visi spiritual untuk mengatasi rintangan hidup. (Master Number)",
+          22: "Tantangan luar biasa untuk mewujudkan visi tinggi melalui tindakan nyata dan perencanaan yang matang. (Master Number)",
+          33: "Tantangan spiritual yang mendalam, menuntut pengorbanan dan empati dalam menghadapi situasi kompleks. (Master Number)"
         }
       };
       return descriptions[type][number] || "Deskripsi tidak tersedia untuk angka ini.";
@@ -391,7 +394,11 @@
               <p>${personalYearDesc}</p>
               <hr>
               <h4>Karmic Lessons:</h4>
-              <p>${karmicLessons.length ? "Angka yang belum muncul: " + karmicLessons.join(', ') : "Tidak ada pelajaran karmik"}</p>
+              <p>${
+                karmicLessons.length 
+                ? "Angka yang belum muncul dalam Expression Number: " + karmicLessons.join(', ')
+                : "Semua angka pelajaran karmik telah muncul dalam nama Anda."
+              }</p>
               <hr>
               <h4>Destiny Challenge: ${destinyChallenge}</h4>
               <p>${destinyChallengeDesc}</p>
